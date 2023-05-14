@@ -64,10 +64,10 @@
 			$sql = "SELECT `product_name`, `sku`, `description`, `price`, `discount`, `featured_img`, `gallery`, `brand`, `category`, `tag`, `rate` FROM `products`";
 			$result = $this->execute($sql);
 			if($this->num_rows() == 0) {
-				$data = 0;
+				$data = [];
 			} else {
 				while ($datas = mysqli_fetch_assoc($result)) {
-					$data[] = $datas;
+					$data = $datas;
 				}
 			}
 	    	return $data;
