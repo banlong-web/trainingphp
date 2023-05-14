@@ -15,8 +15,7 @@
 	    public function syncData() {
 			$success = false;
 			$update = false;
-			$baseProduct = $this->products->getProductsChecked();
-			// header("Content-Type: text/plain");
+			header("Content-Type: text/plain");
 			$targetDir = UPLOAD_ROOT;
 			$newdir = $targetDir.'products/';
 			is_dir($newdir) || @mkdir($newdir) || die("Can't Create folder");
@@ -103,7 +102,7 @@
 				foreach ($tagProduct as $tags) {
 					$arrTag .= $tags[1].', ';
 				}
-				$productsList = [
+				$productsList[] = [
 					'product_name'			=> html_entity_decode($titleProduct[0][1]),
 					'sku'					=> !empty($skuProduct[0]) ? $skuProduct[0][1] : str_replace([' – ', ' '], [' ', '-'],strtolower(html_entity_decode($titleProduct[0][1]))),
 					'description'			=> $description[1] ? strip_tags(implode(' ', $description[1])) : '',
@@ -116,26 +115,46 @@
 					'tag'					=> !empty($arrTag) ? rtrim($arrTag, ', ') : '',
 					'rated'					=> !empty($rating[0]) ? $rating[0][1]: '' 
 				];
-				
-				foreach($baseProduct as $value) {
-					if($value['sku'] !== $productsList['sku']) {
-						if($this->products->InsertProducts($productsList)) {
-							$success = true;
-						}
-					}
-					if($value['sku'] === $productsList['sku']) {
-						if($this->products->updateProduct($productsList)) { 
-							$update = true;
-						}
+				// if (!in_array($productsList['sku'], $baseProduct)) {
+				// 	if($this->products->InsertProducts($productsList)) {
+				// 		$success = true;
+				// 	}
+				// } 
+				// if (in_array($productsList['sku'], $baseProduct)) {
+				// 	echo 'update';
+				// } 
+			}
+			// print_r($productsList);
+			$baseProduct = $this->products->getProductsChecked();
+			foreach($productsList as $productList) {
+				if (!in_array($productList['sku'], $baseProduct)) {
+					if($this->products->InsertProducts($productList)) {
+						$success = true;
 					}
 				}
-				
+				if (in_array($productList['sku'], $baseProduct)) {
+					echo 'update';
+				} 
 			}
+			// foreach($baseProduct as $value) {
+			// 	foreach($productsList as $productList) {
+			// 		if($value['sku'] !== $productList['sku']) {
+			// 			if($this->products->InsertProducts($productList)) {
+			// 				$success = true;
+			// 			}
+			// 		}
+			// 		if($value['sku'] === $productList['sku']) {
+			// 			if($this->products->updateProduct($productList )) { 
+			// 				$update = true;
+			// 			}
+			// 		}
+			// 	}
+			// }
 			$output = [
 				'add' => $success,
 				'update' => $update
 			];
-			echo json_encode($output);
+			// echo json_encode($output);
 	    }
 		public function FunctionName()
 		{
