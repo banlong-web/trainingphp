@@ -13,9 +13,15 @@ include_once './mvc/views/header.php'; ?>
 					<input type="text" name="product_name" class="product-name">
 					<div class="message-error"></div>
 				</div>
-				<div class="form-group form-div product_sku">
+				<div class="form-group product_sku">
 					<label>Product SKU</label>
 					<input type="text" name="product_sku" class="product-sku">
+					<div class="message-error"></div>
+				</div>
+				<div class="form-group product_description">
+					<label>Product Description</label>
+					<textarea name="product_description" class="product-description">
+					</textarea>
 					<div class="message-error"></div>
 				</div>
 				<div class="form-group form-div product_price">
@@ -23,12 +29,17 @@ include_once './mvc/views/header.php'; ?>
 					<input type="number" name="product_price" class="product-price">
 					<div class="message-error"></div>
 				</div>
+				<div class="form-group form-div product_discount">
+					<label>Product Discount</label>
+					<input type="number" name="product_discount" class="product-discount">
+					<div class="message-error"></div>
+				</div>
 				<div class="form-group">
 					<?php
 					if (isset($propertyTypes)) { 
 						$type = '';
 						?>
-						<label for="properties">Select Property Of Product:</label>
+						<label>Select Property Of Product:</label>
 						<div class="form-property row">
 							<?php
 							foreach ($propertyTypes as $propertyType) { 
@@ -59,7 +70,7 @@ include_once './mvc/views/header.php'; ?>
 					<?php }
 					?>
 				</div>
-				<div class="form-group form-div product_img">
+				<div class="form-group form-div product-img">
 					<span class="label">Product Image</span>
 					<label for="product_img" class="file-img"></label>
 					<input id="product_img" type="file" name="product_img">

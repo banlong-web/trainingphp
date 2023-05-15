@@ -59,9 +59,9 @@
 			}
 	    	return $data;
 	    }
-		public function getProductsChecked()
+		public function getProductsChecked($productSKU)
 	    {
-			$sql = "SELECT `product_name`, `sku`, `description`, `price`, `discount`, `featured_img`, `gallery`, `brand`, `category`, `tag`, `rate` FROM `products`";
+			$sql = "SELECT `product_name`, `sku`, `description`, `price`, `discount`, `featured_img`, `gallery`, `brand`, `category`, `tag`, `rate` FROM `products` WHERE `sku` = '$productSKU'";
 			$result = $this->execute($sql);
 			if($this->num_rows() == 0) {
 				$data = [];
@@ -99,7 +99,7 @@
 				$brand = $data['brand'];
 				$category = $data['category'];
 				$tag = $data['tag'];
-				$rated = $data['rated'];
+				$rated = $data['rate'];
 	            $timeCreate = date('Y-m-d H:i:s');
 	            $sql = 
 				"INSERT INTO `products`(`product_id`, `product_name`, `sku`, `description`, `price`, `discount`, `featured_img`, `gallery`, `brand`, `category`, `tag`, `rate`, `create_date`, `modified_date`)
@@ -143,7 +143,9 @@
 	    public function updateProduct($data) {
 	    	date_default_timezone_set("Asia/Bangkok");
 	    	if($data) {
-	    		$product_id = $data['product_id'];
+				if(isset($data['product_id'])) {
+					$product_id = $data['product_id'];
+				}
 				$productName = $data['product_name'];
 	            $productSKU = $data['sku'];
 				$productDescription = $data['description'];
@@ -154,12 +156,19 @@
 				$brand = $data['brand'];
 				$category = $data['category'];
 				$tag = $data['tag'];
-				$rated = $data['rated'];
+				$rated = $data['rate'];
 	            $timeModified = date('Y-m-d H:i:s');
-	    		$sql = "UPDATE `products` 
+				if(!empty($product_id)) {
+					$sql = "UPDATE `products` 
+					SET `product_name`='$productName',`sku`='$productSKU', `description` = '$productDescription', `price`='$productPrice',
+					`discount`='$productDiscount', `featured_img`='$productImage',`gallery`='$productGallery', `brand`='$brand',
+					`category`='$category', `tag`='$tag', `rate`='$rated', `modified_date`='$timeModified' WHERE `product_id` = '$product_id'";
+				} else {
+					$sql = "UPDATE `products` 
 	    				SET `product_name`='$productName',`sku`='$productSKU', `description` = '$productDescription', `price`='$productPrice',
 						`discount`='$productDiscount', `featured_img`='$productImage',`gallery`='$productGallery', `brand`='$brand',
 						`category`='$category', `tag`='$tag', `rate`='$rated', `modified_date`='$timeModified' WHERE `sku` = '$productSKU'";
+				}
 	    	}
 	    	return $this->execute($sql);
 	    }

@@ -15,7 +15,7 @@
 	    public function syncData() {
 			$success = false;
 			$update = false;
-			header("Content-Type: text/plain");
+			// header("Content-Type: text/plain");
 			$targetDir = UPLOAD_ROOT;
 			$newdir = $targetDir.'products/';
 			is_dir($newdir) || @mkdir($newdir) || die("Can't Create folder");
@@ -113,68 +113,30 @@
 					'brand'					=> '',
 					'category'				=> !empty($cateProduct[0]) ? $cateProduct[0][1]: '',
 					'tag'					=> !empty($arrTag) ? rtrim($arrTag, ', ') : '',
-					'rated'					=> !empty($rating[0]) ? $rating[0][1]: '' 
+					'rate'					=> !empty($rating[0]) ? $rating[0][1]: '' 
 				];
-				// if (!in_array($productsList['sku'], $baseProduct)) {
-				// 	if($this->products->InsertProducts($productsList)) {
-				// 		$success = true;
-				// 	}
-				// } 
-				// if (in_array($productsList['sku'], $baseProduct)) {
-				// 	echo 'update';
-				// } 
 			}
-			// print_r($productsList);
-			$baseProduct = $this->products->getProductsChecked();
 			foreach($productsList as $productList) {
-				if (!in_array($productList['sku'], $baseProduct)) {
+				$baseProduct = $this->products->getProductsChecked($productList['sku']);
+				if(empty($baseProduct)) {
 					if($this->products->InsertProducts($productList)) {
+						$newAllProducts = $this->products->getProductsChecked($productList['sku']);
+						$baseProduct = $newAllProducts;
 						$success = true;
 					}
-				}
-				if (in_array($productList['sku'], $baseProduct)) {
-					echo 'update';
+				} else {
+					if(!empty($baseProduct) && in_array($productList['sku'], $baseProduct)) {
+						if($this->products->updateProduct($productList )) { 
+							$update = true;
+						}
+					}
 				} 
 			}
-			// foreach($baseProduct as $value) {
-			// 	foreach($productsList as $productList) {
-			// 		if($value['sku'] !== $productList['sku']) {
-			// 			if($this->products->InsertProducts($productList)) {
-			// 				$success = true;
-			// 			}
-			// 		}
-			// 		if($value['sku'] === $productList['sku']) {
-			// 			if($this->products->updateProduct($productList )) { 
-			// 				$update = true;
-			// 			}
-			// 		}
-			// 	}
-			// }
 			$output = [
 				'add' => $success,
 				'update' => $update
 			];
-			// echo json_encode($output);
+			echo json_encode($output);
 	    }
-		public function FunctionName()
-		{
-	
-			// if($products !== $baseProduct) {
-			// 	foreach ($products as $key => $listProducts) {
-			// 		print_r($listProducts);
-			// 		// if($this->products->InsertProducts($listProducts)) {
-			// 		// 	echo ("<script type='text/javascript'>alert('Sync new products successfully!');</script>");
-			// 		// 	header("Refresh:0; url=/");
-			// 		// }
-			// 	}
-			// } else {
-			// 	// foreach ($products as $key => $listProducts) {
-			// 	// 	if($this->products->updateProduct($listProducts)) {
-			// 	// 		echo ("<script type='text/javascript'>alert('Update products successfully!');</script>");
-			// 	// 		header("Refresh:0; url=/");
-			// 	// 	}
-			// 	// }
-			// }
-		}
 	}
 ?>

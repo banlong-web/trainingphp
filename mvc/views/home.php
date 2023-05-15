@@ -15,8 +15,8 @@
 						<a href="property" id="">Add property</a>
 					</div>
 					<div class="btn btn-sync-villatheme">
-						<!-- <button type="submit" class="sync-villatheme">Sync from Villa Theme</button> -->
-						<a href="sync-villatheme/syncData">Sync from Villa Theme</a>
+						<button type="submit" class="sync-villatheme">Sync from Villa Theme</button>
+						<!-- <a href="sync-villatheme/syncData">Sync from Villa Theme</a> -->
 					</div>
 				</div>
 				<div class="search-product">
