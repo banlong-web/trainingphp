@@ -22,12 +22,15 @@ class EditProduct extends Controllers
     public function show()
     {
         global $propertyTypes, $propertyData, $data, $baseProperty;
-        $id = $_GET['id'];
-        $data = $this->products->getProduct($id);
-        $propertyTypes = $this->properties->getPropertyType();
-        $propertyData = $this->properties->getPropertyData();
-        $baseProperty = $this->products->getPropertyID($id);
-        require_once "./mvc/views/products/edit.php";
+        if(isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $data = $this->products->getProduct($id);
+            $propertyTypes = $this->properties->getPropertyType();
+            $propertyData = $this->properties->getPropertyData();
+            $baseProperty = $this->products->getPropertyID($id);
+            require_once "./mvc/views/products/edit.php";
+        }
+      
     }
     public function edit()
     {   
@@ -35,7 +38,8 @@ class EditProduct extends Controllers
         $dataDisplay = $this->products->getProduct($id);
         $baseProperty = $this->products->getPropertyID($id);
         $dataUpdate = $_POST['dataProduct'] ? $_POST['dataProduct'][0] : '';
-        $success = '';
+        $success = false;
+        $same = '';
         if($dataUpdate) {
             $arrProperty = array_filter(explode(',', $dataUpdate['property_name']));
             $idProperties = $this->properties->getIDProperty($arrProperty);
@@ -63,15 +67,15 @@ class EditProduct extends Controllers
                 'product_id'		=> $id,
                 'product_name' 		=> $dataUpdate['product_name'],
                 'sku' 		        => $dataUpdate['product_sku'],
+                'description'		=> '',
                 'price' 	        => $dataUpdate['product_price'],
-                'discount' 	        => 'discount',
+                'discount' 	        => '0',
                 'featured_img' 		=> $dataUpdate['product_img'],
                 'gallery' 	        => $dataUpdate['product_gallery'],
                 'brand'				=> isset($brandName) ? implode(',', $brandName) : '',
                 'category'			=> isset($cateName) ? implode(',', $cateName) : '',
                 'tag'				=> isset($tagName) ? implode(',', $tagName) : '',
-                'description'		=> '',
-                'rated'			    => '' 
+                'rate'			    => '0' 
             ];
             foreach ($dataDisplay as $key => $val) {
                 if($key !== 'modified_date' && $key !== 'create_date') {
@@ -90,8 +94,8 @@ class EditProduct extends Controllers
                 }
             }
             $newBaseProperty = array_filter(explode(',', $nameProperty));
-            if(($newDataDisplay === $arrDataProduct) && ($newBaseProperty === $arrProperty)) {
-                $success .= 'same';
+            if(($newDataDisplay == $arrDataProduct) && ($newBaseProperty == $arrProperty)) {
+                $same = 'same';
             } 
             if (($newDataDisplay !== $arrDataProduct) || ($newBaseProperty !== $arrProperty)) {
                 if($this->products->updateProduct($arrDataProduct)){
@@ -99,15 +103,15 @@ class EditProduct extends Controllers
                         $this->products->updateProductProperty($id, $dataProperty);
                         $this->products->removeAfterUpdateProductProperty($id, $dataProperty);
                     }
-                    $success .= 'true';
+                    $success = true;
                 } else {
-                    $success .= 'false';
+                    $success = false;
                 }
             }
             $output = [
                 'base_property' => $baseProperty,
                 'data_product'  => $dataDisplay,
-                'success'       => $success
+                'success'       => $same ? $same : $success,
             ];
         }
        

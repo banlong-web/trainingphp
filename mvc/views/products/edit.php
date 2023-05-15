@@ -6,27 +6,38 @@
     <div class="form-add">
         <form method="post" class="form" enctype="multipart/form-data">
             <div class="form-layout">
-                <div class="form-group" id="product_name_form">
+                <div class="form-group product_name_form">
                     <label>Product Name</label>
                     <input type="text" name="product_name" value="<?php echo $data['product_name']; ?>" class="product-name">
                    	<div class='message-error'></div>
                 </div>
-                <div class="form-group form-div" id="product_sku_form">
+                <div class="form-group product_sku_form">
                     <label>Product SKU</label>
                     <input type="text" name="product_sku" value="<?= $data['sku'];?>" class="product-sku">
                    	<div class='message-error'></div>
                 </div>
-                <div class="form-group form-div" id="product_price_form">
+				<div class="form-group product_description">
+					<label>Product Description</label>
+					<textarea name="product_description" class="product-description">
+					</textarea>
+					<div class="message-error"></div>
+				</div>
+                <div class="form-group form-div product_price_form">
                     <label>Product Price</label>
                     <input type="number" name="product_price" value="<?= $data['price'];?>" class="product-price">
                    	<div class='message-error'></div>
                 </div>
+				<div class="form-group form-div product_discount_form">
+					<label>Product Discount</label>
+					<input type="number" name="product_discount" class="product-discount">
+					<div class="message-error"></div>
+				</div>
                 <div class="form-group">
 					<?php
 					if (isset($propertyTypes)) { 
 						$type = '';
 						?>
-						<label for="properties">Select Property Of Product:</label>
+						<label>Select Property Of Product:</label>
 						<div class="form-property row">
 						    <?php
 							foreach ($propertyTypes as $propertyType) { 
@@ -65,39 +76,45 @@
 					<?php }
 					?>
 				</div>
-                <div class="form-group form-div product-img-edit">
+                <div class="form-group form-div form-edit-img">
                     <span class="label">Product Image</span>
-                    <label for="product_img" class="file-img">
+                    <label for="product_img_edit" class="file-img">
                         <?php 
 							$src = "";
 							$dataImg = "";
 							if($data['featured_img']){
 								$src .= $data['featured_img'];
 								$dataImg .= $data['featured_img'];
-							} 
+							}
+							if(!empty($src)) {
+								echo '<img class="product-render-img" src="'.$src.'" alt="" data-img="'.$dataImg.'"';
+							}
 						?>
-						<img class="product-render-img" src="<?= $src; ?>" alt="" data-img="<?= $dataImg; ?>">
+						
                     </label>
-                    <input id="product_img" type="file" name="product_img">
+                    <input id="product_img_edit" type="file" name="product_img">
 					<div class="message-error"></div>
                 </div>
-                <div class="form-group form-div product-gallery-edit">
+                <div class="form-group form-div form-edit-gallery">
                     <span class="label">Product Gallery</span>
-                    <label for="product_gallery" class="file-img">
-						<div class="gallery">
+                    <label for="product_gallery_edit" class="file-img">
 							<?php 
 								$productGallery = explode(',',$data['gallery']);
-								if($data['gallery']) {
-										foreach ($productGallery as $value) {
-											echo '<img class="product-render-img" src="'.$value.'" data-gallery="'.$value.'">';
-										}
-								} else {
-									echo '<img class="product-render-img" src="" data-gallery="">';
-								} 
-							?>
-						</div>
+								if($data['gallery']) { ?>
+									<div class="gallery">
+										<?php
+										if ($productGallery) {
+											foreach ($productGallery as $value) {
+												echo '<img class="product-render-img" src="'.$value.'" data-gallery="'.$value.'">';
+											}
+										} else {
+											echo '<img class="product-render-img" src="" data-gallery="">';
+										} 
+										?> 
+									</div>	
+							<?php } ?>
                     </label>
-                    <input type="file" id="product_gallery" name="product_gallery[]" multiple>
+                    <input type="file" id="product_gallery_edit" name="product_gallery[]" multiple>
 					<div class="message-error"></div>
                 </div>
             </div>
@@ -109,4 +126,4 @@
     </div>
 </div>
 <?php 
-include_once './mvc/views/products/layout/footer.php';
+include_once './mvc/views/footer.php';

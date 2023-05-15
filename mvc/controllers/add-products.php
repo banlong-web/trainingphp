@@ -63,14 +63,14 @@
 					'product_name' 	=> $data['product_name'],
 					'sku' 			=> $data['product_sku'],
 					'price' 		=> $data['product_price'],
-					'discount'		=> '',
+					'discount'		=> $data['discount'],
 					'featured_img' 	=> $data['product_img'],
 					'gallery' 		=> $data['product_gallery'],
 					'brand'			=> !empty($brandName) ? implode(',', $brandName) : '',
 					'category'		=> !empty($cateName) ? implode(',', $cateName) : '',
 					'tag'			=> !empty($tagName) ? implode(',', $tagName) : '',
-					'description'	=> '',
-					'rated'			=> '' 
+					'description'	=> $data['description'],
+					'rate'			=> 0 
 				];
 				if($allData) {
 					foreach ($allData as $value) {
