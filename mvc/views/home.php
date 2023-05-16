@@ -52,8 +52,7 @@
 									if ($keytableVal !== 'product_id' && $keytableVal !== 'featured_img' && $keytableVal !== 'gallery' 
 										&& !in_array($keytableVal, $arrayProperty) 
 										&& $keytableVal !== 'create_date' && $keytableVal !== 'modified_date' && $keytableVal !== 'description') { ?>
-										<option value="<?= $keytableVal ?>" 
-										<?php if (isset($_SESSION['nameattr']) && $_SESSION['nameattr'] === $keytableVal) { echo "selected"; }?>>
+										<option value="<?= $keytableVal ?>">
 											<?php echo ucwords(str_replace('_', ' ', $keytableVal)); ?>
 										</option>
 										<?php 
@@ -64,11 +63,10 @@
 						</div>
 						<div class="form-group form-div">
 							<select name="sorting" id="sorting" class="form-select">
-								<option value="asc" 
-									<?php if (isset($_SESSION['sorting']) && $_SESSION['sorting'] === 'asc') { echo "selected"; }?>>
+								<option value="asc">
 									ASC
 								</option>
-								<option value="desc" <?php if (isset($_SESSION['sorting']) && $_SESSION['sorting'] === 'desc') { echo "selected"; }?>>
+								<option value="desc">
 									DESC
 								</option>
 							</select>
@@ -95,16 +93,7 @@
 										if (isset($dataProperty)) {
 											foreach ($dataProperty as $dataVal) {
 												if ($value['property_type'] == $dataVal['property_type']) { ?>
-													<option value="<?= $dataVal['property_slug']; ?>" 
-													<?php 
-													if (isset($_SESSION['property'])) { 
-														foreach ($_SESSION['property'] as $val) { 
-															if ($val === $dataVal['property_slug']) {
-																echo 'selected';
-															}
-														}
-													}
-													?>>
+													<option value="<?= $dataVal['property_slug']; ?>">
 														<?= $dataVal['property_name']; ?>
 													</option>
 										<?php
