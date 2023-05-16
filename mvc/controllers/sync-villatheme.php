@@ -5,17 +5,19 @@
 	class SyncVillaTheme extends Controllers
 	{
 		protected $products;
+		protected $properties;
 	    /**
 	     * summary
 	     */
 	    public function __construct()
 	    {
 	        $this->products = $this->model('productsModel');
+			$this->properties = $this->model('PropertyModels');
 	    }
 	    public function syncData() {
 			$success = false;
 			$update = false;
-			// header("Content-Type: text/plain");
+			header("Content-Type: text/plain");
 			$targetDir = UPLOAD_ROOT;
 			$newdir = $targetDir.'products/';
 			is_dir($newdir) || @mkdir($newdir) || die("Can't Create folder");
@@ -52,7 +54,8 @@
 			$regBasePrice = '/<del aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;<\/span>(.*)<\/bdi><\/span><\/del>/';
 			$regDiscountPrice = '/<ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;<\/span>(.*)<\/bdi><\/span><\/ins>/';
 			foreach($array_list as $list) {
-				$arrTag = '';
+				$nameCate = '';
+				$nameTag = '';
 				$productGallery = '';
 				$url = "https://villatheme.com/extensions/".$list;
 				$dt = curl_init($url);
@@ -87,7 +90,7 @@
 						preg_match_all('#<img .*? src="https://villatheme.com/wp-content/uploads/(.+?)/(.+?)/(.+?).jpg" class="" .*?>#si', $value[1], $gallery, PREG_SET_ORDER, 0);
 						if(!empty($gallery)) {
 							$galleryFull = $gallery[0][3].'.jpg';
-							$productGallery .= $url_site_src.$year.'/'.$month.'/'.$galleryFull.',';
+							$productGallery .= $url_site_src.$year.'/'.$month.'/'.$galleryFull.', ';
 							$galleryUrl = "https://villatheme.com/wp-content/uploads/".$year.'/'.$month.'/'.$galleryFull;
 							$galleryname = basename($galleryFull);
 							copy($galleryUrl, $dirFinal . DIRECTORY_SEPARATOR . $galleryname);
@@ -99,8 +102,37 @@
 				preg_match_all('#<span class="tagged_as">(.+?)</span>#si', $dtcontent, $tagProducts, PREG_SET_ORDER, 0);
 				preg_match_all('#<a .+?>(.*?)</a>#si', $tagProducts[0][1], $tagProduct, PREG_SET_ORDER, 0);
 				preg_match_all('#<strong class="rating">(.+?)</strong>#si', $dtcontent, $rating, PREG_SET_ORDER, 0);
+				foreach ($cateProduct as $cate) {
+					$nameCate .= $cate[1].', ';
+					$arrCateData = [
+						'property_type' 		=> 'category',
+						'property_name' 		=> $cate[1],
+						'property_slug'			=> str_replace(' ', '_', strtolower($cate[1])),
+						'property_description' 	=> ''
+					];
+					$baseProperty = $this->properties->getPropertyChecked($cate[1]);
+					if(empty($baseProperty) && !in_array($cate[1], $baseProperty)) {
+						if($this->properties->InsertProperty($arrCateData)) {
+							$newProperty = $this->properties->getPropertyChecked($cate[1]);
+							$baseProperty = $newProperty;
+						}
+					}
+				}
 				foreach ($tagProduct as $tags) {
-					$arrTag .= $tags[1].', ';
+					$nameTag .= $tags[1].', ';
+					$arrTagData = [
+						'property_type' 		=> 'tag',
+						'property_name' 		=> $tags[1],
+						'property_slug'			=> str_replace(' ', '_', strtolower($tags[1])),
+						'property_description' 	=> ''
+					];
+					$baseProperty = $this->properties->getPropertyChecked($tags[1]);
+					if(empty($baseProperty) && !in_array($tags[1], $baseProperty)) {
+						if($this->properties->InsertProperty($arrTagData)) {
+							$newProperty = $this->properties->getPropertyChecked($tags[1]);
+							$baseProperty = $newProperty;
+						}
+					}
 				}
 				$productsList[] = [
 					'product_name'			=> html_entity_decode($titleProduct[0][1]),
@@ -109,19 +141,26 @@
 					'price'					=> !empty($basePrice[0]) ? $basePrice[0][1] : '',
 					'discount'				=> !empty($discountPrice[0]) ? $discountPrice[0][1]: '',
 					'featured_img'			=> !empty($featuredImg) ? $featuredImg : '',
-					'gallery'				=> !empty($gallery) ? $featuredImg.','.rtrim($productGallery, ',') : '',
+					'gallery'				=> !empty($gallery) ? $featuredImg.', '.rtrim($productGallery, ', ') : '',
 					'brand'					=> '',
-					'category'				=> !empty($cateProduct[0]) ? $cateProduct[0][1]: '',
-					'tag'					=> !empty($arrTag) ? rtrim($arrTag, ', ') : '',
+					'category'				=> !empty($nameCate) ? rtrim($nameCate, ', ') : '',
+					'tag'					=> !empty($nameTag) ? rtrim($nameTag, ', ') : '',
 					'rate'					=> !empty($rating[0]) ? $rating[0][1]: '' 
 				];
 			}
 			foreach($productsList as $productList) {
 				$baseProduct = $this->products->getProductsChecked($productList['sku']);
+				$arrayPropertyTagName = explode(', ', $productList['tag']);
+				$arrayPropertyCateName = explode(', ', $productList['category']);
+				$mergeArrayPropertyName = array_merge($arrayPropertyCateName, $arrayPropertyTagName);
+				$idProperties = $this->properties->getIDPropertyByName($mergeArrayPropertyName);
 				if(empty($baseProduct)) {
 					if($this->products->InsertProducts($productList)) {
 						$newAllProducts = $this->products->getProductsChecked($productList['sku']);
 						$baseProduct = $newAllProducts;
+						$dataId = $this->products->getProductID($productList['product_name']);
+						$productID = $dataId['product_id'];
+						$this->products->insertProductDetails($productID, $idProperties);
 						$success = true;
 					}
 				} else {

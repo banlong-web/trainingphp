@@ -3,7 +3,7 @@ include_once './mvc/views/header.php'; ?>
 <div class="container">
 	<div class="actions-property">
 		<div class="title">
-			<h2><?= "Add Property"; ?></h2>
+			<h2><?php echo "Add Property"; ?></h2>
 		</div>
 		<div class="form-add">
 			<form method="post" class="form" enctype="multipart/form-data">

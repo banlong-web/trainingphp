@@ -42,7 +42,7 @@ jQuery(document).ready(function ($) {
     // Get img and upload img
     let productImg = '';
     let productGallery = [];
-    var regexText =/^[a-zA-Z0-9][a-zA-Z0-9 ._-]+$/;
+    var regexText =/[a-zA-Z0-9_-].+/;
 	var regexPrice = /^[0-9]{0,10}$/;
 
     // Add products images
@@ -166,7 +166,6 @@ jQuery(document).ready(function ($) {
         var discountProduct = $(".product-discount").val();
         var typeProperty = $("#type-property").val();
         var arrTypeProperty = typeProperty.split(',');
-        console.log(productName);
         let nameProperty = [];
         var id = $('#product-id').val();
         $.each(arrTypeProperty, (index, value) => {
@@ -198,6 +197,16 @@ jQuery(document).ready(function ($) {
             $('.product_discount_form .message-error').html("Invalid product price!");
         } else {
             $('.product-price').removeClass('error');
+        }
+
+        if(productImg === '') {
+            productImg = $('.form-edit-img .product-render-img').data('img');
+        }
+        if(productGallery.length == 0) {
+            $('.form-edit-gallery .gallery .product-render-img').each((i, ele) => {
+                var dataGallery = $(ele).data('gallery');
+                productGallery.push(dataGallery);
+            })
         }
         if(productName !== '' && regexText.test(productName) === true) {
             var dataProduct = [

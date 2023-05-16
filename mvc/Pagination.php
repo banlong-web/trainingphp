@@ -2,6 +2,10 @@
 
 class Pagination
 {
+	public function __construct()
+	{
+		# code...
+	}
      /**
 	 * pagination
 	 *

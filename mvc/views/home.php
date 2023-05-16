@@ -31,8 +31,8 @@
 			<?php if ($data) { ?>
 			<div class="filter">
 				<form method="post" class="form" enctype="multipart/form-data">
-					<div class="action-top">
-						<div class="form-group">
+					<div class="filter-layout form-layout">
+						<div class="form-group form-div">
 							<select name="nameattr" id="field_attr" class="form-select">
 								<option value="">Choose an item</option>
 								<?php
@@ -62,7 +62,7 @@
 								?>
 							</select>
 						</div>
-						<div class="form-group">
+						<div class="form-group form-div">
 							<select name="sorting" id="sorting" class="form-select">
 								<option value="asc" 
 									<?php if (isset($_SESSION['sorting']) && $_SESSION['sorting'] === 'asc') { echo "selected"; }?>>
@@ -73,15 +73,23 @@
 								</option>
 							</select>
 						</div>
+						<div class="form-date">
+							<div class="form-group">
+								<input type="date" name="from_date" id="from_date">
+							</div>
+							<div class="form-group">
+								<input type="date" name="to_date" id="to_date">
+							</div>
+						</div>
 						<?php
 						if ($typeProperty) { ?>
-							<div class="form-group" style="display: flex;">
+							<div class="form-group" style="display: flex; justify-content: space-between;">
 							<?php	
 							$type = '';
 							foreach ($typeProperty as $value) { 
 								$type .= $value['property_type'].',';
 								?>
-									<select name="<?= $value['property_type']; ?>" id="<?= $value['property_type']; ?>" class="form-select" style="margin: 0 15px;">
+									<select name="<?= $value['property_type']; ?>" id="<?= $value['property_type']; ?>" class="form-select">
 										<option value="">Choose <?= $value['property_type']?></option>
 										<?php
 										if (isset($dataProperty)) {
@@ -111,12 +119,6 @@
 							</div>
 							<?php 
 						} ?>
-						<div class="form-group">
-							<input type="date" name="from_date" id="from_date">
-						</div>
-						<div class="form-group">
-							<input type="date" name="to_date" id="to_date">
-						</div>
 						<div class="btn">
 							<button type="submit" class="submit-filter" name="filter"><i class='bx bx-filter-alt'></i></button>
 						</div>

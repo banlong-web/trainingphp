@@ -96,5 +96,35 @@
 				return $data;
 			}
 		}
+		public function getPropertyChecked($args)
+		{
+			$sql = "SELECT * FROM `properties` WHERE `property_name` = '$args'";
+			$result = $this->execute($sql);
+	    	if($this->num_rows() == 0) {
+	    		$data = [];
+	    	} else {
+	    		while ($datas = mysqli_fetch_assoc($result)) {
+	    		    $data[] = $datas;
+	    		}
+	    	}
+	    	return $data;
+		}
+		public function getIDPropertyByName($args)
+		{
+			if($args) {
+				foreach ($args as $val) {
+					$sql = "SELECT `property_id` FROM `properties` WHERE `property_name` = '$val';";
+					$result = $this->execute($sql);
+					if($this->num_rows() == 0) {
+						$data = 0;
+					} else {
+						while ($datas = mysqli_fetch_assoc($result)) {
+							$data[] = $datas['property_id'];
+						}
+					}
+				}
+				return $data;
+			}
+		}
 	}
 ?>
