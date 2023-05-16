@@ -31,8 +31,8 @@
 			<?php if ($data) { ?>
 			<div class="filter">
 				<form method="post" class="form" enctype="multipart/form-data">
-					<div class="action-top">
-						<div class="form-group">
+					<div class="filter-layout form-layout">
+						<div class="form-group form-div">
 							<select name="nameattr" id="field_attr" class="form-select">
 								<option value="">Choose an item</option>
 								<?php
@@ -52,8 +52,7 @@
 									if ($keytableVal !== 'product_id' && $keytableVal !== 'featured_img' && $keytableVal !== 'gallery' 
 										&& !in_array($keytableVal, $arrayProperty) 
 										&& $keytableVal !== 'create_date' && $keytableVal !== 'modified_date' && $keytableVal !== 'description') { ?>
-										<option value="<?= $keytableVal ?>" 
-										<?php if (isset($_SESSION['nameattr']) && $_SESSION['nameattr'] === $keytableVal) { echo "selected"; }?>>
+										<option value="<?= $keytableVal ?>">
 											<?php echo ucwords(str_replace('_', ' ', $keytableVal)); ?>
 										</option>
 										<?php 
@@ -62,41 +61,39 @@
 								?>
 							</select>
 						</div>
-						<div class="form-group">
+						<div class="form-group form-div">
 							<select name="sorting" id="sorting" class="form-select">
-								<option value="asc" 
-									<?php if (isset($_SESSION['sorting']) && $_SESSION['sorting'] === 'asc') { echo "selected"; }?>>
+								<option value="asc">
 									ASC
 								</option>
-								<option value="desc" <?php if (isset($_SESSION['sorting']) && $_SESSION['sorting'] === 'desc') { echo "selected"; }?>>
+								<option value="desc">
 									DESC
 								</option>
 							</select>
 						</div>
+						<div class="form-date">
+							<div class="form-group">
+								<input type="date" name="from_date" id="from_date">
+							</div>
+							<div class="form-group">
+								<input type="date" name="to_date" id="to_date">
+							</div>
+						</div>
 						<?php
 						if ($typeProperty) { ?>
-							<div class="form-group" style="display: flex;">
+							<div class="form-group" style="display: flex; justify-content: space-between;">
 							<?php	
 							$type = '';
 							foreach ($typeProperty as $value) { 
 								$type .= $value['property_type'].',';
 								?>
-									<select name="<?= $value['property_type']; ?>" id="<?= $value['property_type']; ?>" class="form-select" style="margin: 0 15px;">
+									<select name="<?= $value['property_type']; ?>" id="<?= $value['property_type']; ?>" class="form-select">
 										<option value="">Choose <?= $value['property_type']?></option>
 										<?php
 										if (isset($dataProperty)) {
 											foreach ($dataProperty as $dataVal) {
 												if ($value['property_type'] == $dataVal['property_type']) { ?>
-													<option value="<?= $dataVal['property_slug']; ?>" 
-													<?php 
-													if (isset($_SESSION['property'])) { 
-														foreach ($_SESSION['property'] as $val) { 
-															if ($val === $dataVal['property_slug']) {
-																echo 'selected';
-															}
-														}
-													}
-													?>>
+													<option value="<?= $dataVal['property_slug']; ?>">
 														<?= $dataVal['property_name']; ?>
 													</option>
 										<?php
@@ -111,12 +108,6 @@
 							</div>
 							<?php 
 						} ?>
-						<div class="form-group">
-							<input type="date" name="from_date" id="from_date">
-						</div>
-						<div class="form-group">
-							<input type="date" name="to_date" id="to_date">
-						</div>
 						<div class="btn">
 							<button type="submit" class="submit-filter" name="filter"><i class='bx bx-filter-alt'></i></button>
 						</div>

@@ -107,8 +107,7 @@ th .overflow {
 th,
 td {
     border-width: 1px;
-    padding: 10px 15px;
-    text-align: center;
+    padding: 10px;
 }
 
 td {
@@ -315,9 +314,9 @@ select {
 }
 
 .product-render-img {
-    max-width: 70px;
     width: 100%;
     margin-left: 10px;
+    object-fit: contain;
 }
 
 .product-render-img:last-child {
@@ -328,7 +327,6 @@ select {
     width: 100%;
     overflow-x: auto;
     display: flex;
-    max-width: 200px;
 }
 .select-property {
     margin-bottom: 15px;
@@ -379,6 +377,26 @@ select {
     display: -webkit-box;
 }
 
+.form .filter-layout {
+    padding: 0;
+}
+.form-date {
+    display: flex;
+    max-width: 360px;
+    width: 100%;
+    justify-content: space-between;
+}
+.form-date .form-group {
+    width: 170px;
+}
+.form-select {
+    max-width: 360px;
+}
+.filter-layout .btn {
+    display: block;
+    text-align: right;
+    width: 100%;
+}
 @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }

@@ -99,7 +99,7 @@
 				}
 				if ($this->products->deleteProduct($id)) {
 					echo ("<script type='text/javascript'>alert('Delete product successfully!');</script>");
-					header("Refresh:0; url=/");
+					header("Refresh:0; url=".URL_SITE."");
 				}
 			}
 		}

@@ -1,7 +1,7 @@
 <?php $pageTitle = 'Edit Product';  include_once './mvc/views/header.php'; ?>
 <div class="container">
     <div class="title">
-        <h2><?= "Edit Product"; ?></h2>
+        <h2><?php echo "Edit Product"; ?></h2>
     </div>
     <div class="form-add">
         <form method="post" class="form" enctype="multipart/form-data">
@@ -13,7 +13,7 @@
                 </div>
                 <div class="form-group product_sku_form">
                     <label>Product SKU</label>
-                    <input type="text" name="product_sku" value="<?= $data['sku'];?>" class="product-sku">
+                    <input type="text" name="product_sku" value="<?php echo $data['sku'];?>" class="product-sku">
                    	<div class='message-error'></div>
                 </div>
 				<div class="form-group product_description">
@@ -24,7 +24,7 @@
 				</div>
                 <div class="form-group form-div product_price_form">
                     <label>Product Price</label>
-                    <input type="number" name="product_price" value="<?= $data['price'];?>" class="product-price">
+                    <input type="number" name="product_price" value="<?php echo $data['price'];?>" class="product-price">
                    	<div class='message-error'></div>
                 </div>
 				<div class="form-group form-div product_discount_form">

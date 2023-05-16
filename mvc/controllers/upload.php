@@ -2,6 +2,10 @@
 
 class Upload
 {
+    public function __construct()
+    {
+        # code...
+    }
     function uploadImg()
     {
         $targetDir = UPLOAD_ROOT;

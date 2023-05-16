@@ -13,9 +13,9 @@
 		}
 		?>
 	</title>
-	<link rel="stylesheet" type="text/css" href="<?= URL_SITE;?>/mvc/public/css/bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="<?= URL_SITE;?>/mvc/public/boxicons-2.0.7/css/boxicons.min.css">
-	<link rel="stylesheet" type="text/css" href="<?= URL_SITE;?>/mvc/public/css/style.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo URL_SITE;?>/mvc/public/css/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo URL_SITE;?>/mvc/public/boxicons-2.0.7/css/boxicons.min.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo URL_SITE;?>/mvc/public/css/style.css">
 </head>
 
 <body>
