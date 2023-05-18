@@ -165,7 +165,19 @@
 					}
 				} else {
 					if(!empty($baseProduct) && in_array($productList['sku'], $baseProduct)) {
-						if($this->products->updateProduct($productList )) { 
+						if($this->products->updateProduct($productList)) { 
+							$dataId = $this->products->getProductID($productList['product_name']);
+							$productID = $dataId['product_id'];
+							$baseProductProperty = $this->products->getPropertyID($productID);
+							$nameProperty = '';
+							foreach($baseProductProperty as $valueOld) { 
+								$nameProperty .= $valueOld['property_name'].',';
+							}
+							$newBaseProductProperty = array_filter(explode(',', $nameProperty));
+							if ($newBaseProductProperty != $mergeArrayPropertyName) {
+								$idProperties = $this->properties->getIDPropertyByName($mergeArrayPropertyName);
+								$this->products->updateProductPropertyRelation($productID, $idProperties);
+							}
 							$update = true;
 						}
 					}

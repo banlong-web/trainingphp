@@ -42,7 +42,7 @@ jQuery(document).ready(function ($) {
     // Get img and upload img
     let productImg = '';
     let productGallery = [];
-    var regexText =/[a-zA-Z0-9_-].+/;
+    var regexText =/[~`!@#$%^&*]+/;
 	var regexPrice = /^[0-9]{0,10}$/;
 
     // Add products images
@@ -97,21 +97,21 @@ jQuery(document).ready(function ($) {
             $('.product-name').addClass('error');
             $('#product_name_form .message-error').html("Enter product name!");
             add_status = false;
-        } else if (productName !== '' && regexText.test(productName) === false) {
+        } else if (productName !== '' && regexText.test(productName)) {
             $('.product-name').addClass('error');
             $('#product_name_form .message-error').html("Product name does not contain special characters!");
             add_status = false;
         } else {
             $('.product-name').removeClass('error');
         }
-        if (skuProduct !== '' && regexText.test(skuProduct) === false) { 
+        if (skuProduct !== '' && regexText.test(skuProduct)) { 
             $('.product-sku').addClass('error');
             $('.product_sku .message-error').html("SKU does not contain special characters!");
             add_status = false;
         } else {
             $('.product-sku').removeClass('error');
         }
-        if (priceProduct !== '' && regexPrice.test(priceProduct) === false) { 
+        if (priceProduct !== '' && !regexPrice.test(priceProduct)) { 
             $('.product-price').addClass('error');
             $('.product_price .message-error').html("Invalid product price!");
             add_status = false;
@@ -174,13 +174,13 @@ jQuery(document).ready(function ($) {
         if(productName == '') {
             $('.product-name').addClass('error');
             $('.product_name_form .message-error').html("Enter product name!");
-        } else if (productName !== '' && regexText.test(productName) === false) {
+        } else if (productName !== '' && regexText.test(productName) === true) {
             $('.product-name').addClass('error');
             $('.product_name_form .message-error').html("Product name does not contain special characters!");
         } else {
             $('.product-name').removeClass('error');
         }
-        if (productSKU !== '' && regexText.test(productSKU) === false) { 
+        if (productSKU !== '' && regexText.test(productSKU) === true) { 
             $('.product-sku').addClass('error');
             $('.product_sku_form .message-error').html("SKU does not contain special characters!");
         } else {
@@ -208,7 +208,7 @@ jQuery(document).ready(function ($) {
                 productGallery.push(dataGallery);
             })
         }
-        if(productName !== '' && regexText.test(productName) === true) {
+        if(productName !== '' && regexText.test(productName) === false) {
             var dataProduct = [
                 {
                     'product_name'      : productName,
@@ -366,8 +366,12 @@ jQuery(document).ready(function ($) {
                             $('#pagination').html('');
                         }
                         $('#table_products').html(render_product(arrData));
+                        $('.list-products .container').removeClass('hidden');
+                        $('.list-products .message-error').html('');
                     } else {
-                        alert('Not Found!');
+                        // alert('Not Found!');
+                        $('.list-products .container').addClass('hidden');
+                        $('.list-products .message-error').html('Not Found');
                     }
                 }
 
@@ -395,12 +399,12 @@ jQuery(document).ready(function ($) {
                     "<td><div class='sku'>"+data[i].sku+"</div></td>"+
                     "<td>"+data[i].price+"</td>"+
                     "<td>"+data[i].discount+"</td>"+
-                    "<td><div class='rate'>"+data[i].rate+"</div></td>"+
                     "<td>"+((data[i].featured_img) ? ('<img class="product-render-img" src="'+data[i].featured_img+'">') : '')+"</td>"+
                     "<td><div class='gallery'>"+displayGallery+"</div></td>"+
                     "<td><div class='brand-content'>"+data[i].brand+"</div></td>"+
                     "<td><div class='cate-content'>"+data[i].category+"</div></td>"+
                     "<td><div class='tag-content'>"+data[i].tag+"</div></td>"+
+                    "<td><div class='rate'>"+data[i].rate+"</div></td>"+
                     "<td>"+
                         "<div class='action-product'>"+
                             "<a class='go-edit' href='edit-product/?id="+data[i].product_id+"'><i class='bx bx-edit'></i></a>"+
