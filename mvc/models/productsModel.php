@@ -156,18 +156,17 @@
 				$brand = $data['brand'];
 				$category = $data['category'];
 				$tag = $data['tag'];
-				$rated = $data['rate'];
 	            $timeModified = date('Y-m-d H:i:s');
 				if(!empty($product_id)) {
 					$sql = "UPDATE `products` 
 					SET `product_name`='$productName',`sku`='$productSKU', `description` = '$productDescription', `price`='$productPrice',
 					`discount`='$productDiscount', `featured_img`='$productImage',`gallery`='$productGallery', `brand`='$brand',
-					`category`='$category', `tag`='$tag', `rate`='$rated', `modified_date`='$timeModified' WHERE `product_id` = '$product_id'";
+					`category`='$category', `tag`='$tag', `modified_date`='$timeModified' WHERE `product_id` = '$product_id'";
 				} else {
 					$sql = "UPDATE `products` 
 	    				SET `product_name`='$productName',`sku`='$productSKU', `description` = '$productDescription', `price`='$productPrice',
 						`discount`='$productDiscount', `featured_img`='$productImage',`gallery`='$productGallery', `brand`='$brand',
-						`category`='$category', `tag`='$tag', `rate`='$rated', `modified_date`='$timeModified' WHERE `sku` = '$productSKU'";
+						`category`='$category', `tag`='$tag', `modified_date`='$timeModified' WHERE `sku` = '$productSKU'";
 				}
 	    	}
 	    	return $this->execute($sql);
