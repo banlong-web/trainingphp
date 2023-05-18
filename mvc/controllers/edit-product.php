@@ -77,11 +77,14 @@ class EditProduct extends Controllers
                 'tag'				=> isset($tagName) ? implode(',', $tagName) : '',
                 'rate'			    => '0' 
             ];
-            foreach ($dataDisplay as $key => $val) {
-                if($key !== 'modified_date' && $key !== 'create_date') {
-                    $newDataDisplay[$key] = $val; 
+            if($dataDisplay) {
+                foreach ($dataDisplay as $key => $val) {
+                    if($key !== 'modified_date' && $key !== 'create_date') {
+                        $newDataDisplay[$key] = $val; 
+                    }
                 }
             }
+
             $nameProperty = '';
             if($baseProperty) {
                 foreach ($baseProperty as $values) {
