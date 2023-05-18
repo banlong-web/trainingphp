@@ -415,5 +415,14 @@
 	    	}
 	    	return $data;
 		}
+		public function updateProductPropertyRelation($productID, $propertiesID)
+		{
+			if ($propertiesID) {
+				foreach ($propertiesID as $value) {
+					$sql = "UPDATE `product_property` SET `property_id` = '$value' WHERE `product_id` = '$productID';";
+					return $this->execute($sql);
+				}
+			}
+		}
 	}
 ?>

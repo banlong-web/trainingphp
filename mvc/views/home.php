@@ -81,7 +81,7 @@
 						</div>
 						<?php
 						if ($typeProperty) { ?>
-							<div class="form-group" style="display: flex; justify-content: space-between;">
+							<div class="form-group" style="display: flex; justify-content: space-evenly;">
 							<?php	
 							$type = '';
 							foreach ($typeProperty as $value) { 
@@ -123,20 +123,41 @@
 		<table border="1px">
 			<thead>
 				<tr>
-					<th><div class="overflow">Date</div></th>
-					<th><div class="overflow">Product Name</div></th>
+					<!-- <th><div class="overflow">Product Name</div></th>
 					<th><div class="overflow">SKU</div></th>
 					<th><div class="overflow">Price</div></th>
 					<th><div class="overflow">Discount<div></th>
 					<th><div class="overflow">Rated</div></th>
 					<th><div class="overflow">Feature Image</div></th>
-					<th><div class="overflow">Gallery Image</div></th>
-					<?php if($typeProperty) {
-						foreach($typeProperty as $value) {?>
-							<th><div class="overflow"><?= ucwords($value['property_type']); ?></div></th>
-						<?php }
-					}?>
-					<th>Actions</th>
+					<th><div class="overflow">Gallery Image</div></th> -->
+					<?php 
+						$keytable = '';
+						if ($data) {
+							echo '<th><div class="overflow">Date</div></th>';
+							foreach ($data as $array) {
+								foreach ($array as $key => $val) {
+									$keytable .= $key . ',';
+								}
+							}
+							$keytableUnique = array_unique(explode(',', $keytable));
+							foreach ($typeProperty as $value) {
+								$arrayProperty[] = $value['property_type'];
+							}
+							foreach (array_filter(array_values($keytableUnique)) as $keytableVal) {
+								if ($keytableVal !== 'product_id' && $keytableVal !== 'create_date' && $keytableVal !== 'modified_date' && $keytableVal !== 'description') { ?>
+									<th>
+										<div class="overflow">
+											<?php echo ucwords(str_replace('_', ' ', $keytableVal)); ?>
+										</div>
+									</th>
+									<?php 
+								}
+							}
+							echo '<th>Actions</th>';
+						}
+					
+					?>
+					
 				</tr>
 			</thead>
 			<tbody id="table_products"></tbody>

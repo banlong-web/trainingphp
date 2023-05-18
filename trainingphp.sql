@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2023 at 03:40 AM
+-- Generation Time: May 17, 2023 at 04:19 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -44,15 +44,6 @@ CREATE TABLE `products` (
   `modified_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `products`
---
-
-INSERT INTO `products` (`product_id`, `product_name`, `sku`, `description`, `price`, `discount`, `featured_img`, `gallery`, `brand`, `category`, `tag`, `rate`, `create_date`, `modified_date`) VALUES
-(1, 'Product name 1', 'product-name-1', '', 22, 0, '', '', 'Brand 1', 'Category 1', '', 0, '2023-05-15 09:07:59', '2023-05-15 10:57:15'),
-(2, 'Laptop Asus TUF Gaming', 'laptop-asus-tuf-gaming', '					', 3290000, 0, 'http://localhost/trainingphp/mvc/public/uploads/Laptop-AsusTUF.jpg', 'http://localhost/trainingphp/mvc/public/uploads/Laptop-AsusTUF-2.jpg,http://localhost/trainingphp/mvc/public/uploads/Laptop-AsusTUF.jpg,http://localhost/trainingphp/mvc/public/uploads/Laptop-AsusTUF-1.jpg', 'Brand 1', 'Category 1', 'Tag 1', 0, '2023-05-15 10:04:58', '2023-05-16 09:00:26'),
-(3, 'Product name 2', 'product-name-2', '					', 321, 0, 'http://localhost/trainingphp/mvc/public/uploads/Laptop-AsusTUF.jpg', 'http://localhost/trainingphp/mvc/public/uploads/Laptop-AsusTUF-2.jpg,http://localhost/trainingphp/mvc/public/uploads/Laptop-AsusTUF.jpg,http://localhost/trainingphp/mvc/public/uploads/Laptop-AsusTUF-1.jpg', 'Brand 1', 'Category 1', 'Tag 1', 0, '2023-05-15 10:59:37', '2023-05-16 09:05:05');
-
 -- --------------------------------------------------------
 
 --
@@ -64,20 +55,6 @@ CREATE TABLE `product_property` (
   `property_id` int(10) DEFAULT NULL,
   `product_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `product_property`
---
-
-INSERT INTO `product_property` (`id`, `property_id`, `product_id`) VALUES
-(1, 1, 1),
-(2, 2, 1),
-(3, 1, 2),
-(4, 2, 2),
-(5, 3, 2),
-(6, 1, 3),
-(7, 3, 3),
-(8, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -92,15 +69,6 @@ CREATE TABLE `properties` (
   `property_slug` varchar(255) DEFAULT NULL,
   `property_description` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `properties`
---
-
-INSERT INTO `properties` (`property_id`, `property_type`, `property_name`, `property_slug`, `property_description`) VALUES
-(1, 'brand', 'Brand 1', 'brand_1', ''),
-(2, 'category', 'Category 1', 'category_1', ''),
-(3, 'tag', 'Tag 1', 'tag_1', '');
 
 --
 -- Indexes for dumped tables
@@ -134,19 +102,19 @@ ALTER TABLE `properties`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `product_id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_property`
 --
 ALTER TABLE `product_property`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `properties`
 --
 ALTER TABLE `properties`
-  MODIFY `property_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `property_id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
