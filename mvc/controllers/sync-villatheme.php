@@ -174,9 +174,15 @@
 								$nameProperty .= $valueOld['property_name'].',';
 							}
 							$newBaseProductProperty = array_filter(explode(',', $nameProperty));
-							if ($newBaseProductProperty != $mergeArrayPropertyName) {
-								$idProperties = $this->properties->getIDPropertyByName($mergeArrayPropertyName);
-								$this->products->updateProductPropertyRelation($productID, $idProperties);
+							
+							foreach($mergeArrayPropertyName as $valueNew) {
+								$valueName = '';
+								if (!in_array($valueNew, $newBaseProductProperty)) {
+									$valueName .= $valueNew.',';
+									$arrName = array_filter(explode(',', $valueName));
+									$dataProperty = $this->properties->getIDPropertyByName($arrName);
+									$this->products->updateProductProperty($productID, $dataProperty);
+								}
 							}
 							$update = true;
 						}

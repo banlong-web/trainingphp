@@ -384,6 +384,7 @@ jQuery(document).ready(function ($) {
     // Function Render HTML
     function render_product(data) {
         var html = '';
+        const month = ["1","2","3","4","5","6","7","8","9","10","11","12"];
         for (let i = 0; i < data.length; i++) {
             var date = new Date(data[i].create_date);
             var galleryImg = data[i].gallery.split(',');
@@ -394,7 +395,8 @@ jQuery(document).ready(function ($) {
             }
             html += 
                 "<tr>"+
-                    "<td>"+((date.getDate() > 9) ? (date.getDate()) : ("0" + (date.getDate())))+"/"+((date.getMonth() > 9) ? (date.getMonth()) : ("0" + (date.getMonth())))+"/"+date.getFullYear()+"</td>"+
+                    "<td>"+((date.getDate() > 9) ? (date.getDate()) : ("0" + (date.getDate())))+"/"+((month[date.getMonth()] > 9) ? (month[date.getMonth()]) : 
+                    ("0" + (month[date.getMonth()])))+"/"+date.getFullYear()+"</td>"+
                     "<td><div class='name-product'>"+data[i].product_name+"</div></td>"+
                     "<td><div class='sku'>"+data[i].sku+"</div></td>"+
                     "<td>"+data[i].price+"</td>"+
